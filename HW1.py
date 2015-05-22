@@ -16,4 +16,4 @@ R = .5
 Temp = [(0,initialTemp)]
 
 for i in range(0,divisions-1):
-    Temp[i+1] = Temp[i] + dt * (-R*(Temp[i]-TempAir))
+    Temp.append( ( i*dt, Temp[i][1] + dt * (-R*(Temp[i][1]-TempAir)) ) )
