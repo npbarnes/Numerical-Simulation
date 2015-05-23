@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 interval = 15  # Minutes
 divisions = 100
 dt = interval/divisions
-initialTemp = 83  # Degrees C
 
+initialTemp = 83  # Degrees C
 TempAir = 30
 R = .5
 
