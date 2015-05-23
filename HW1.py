@@ -11,16 +11,6 @@ initialTemp = 83  # Degrees C
 TempAir = 30
 R = .5
 
-
-Temp = [(0,initialTemp)]
-
-for i in range(0,divisions-1):
-    Temp.append( ( i*dt, Temp[i][1] + dt * (-R*(Temp[i][1]-TempAir)) ) )
-
-# This splits Temp into a list of times and a list of temperatures.
-simX, simY = zip(*Temp)
-plt.plot(simX,simY)
-
 Data = [
         (0,83),
         (1,77.7),
@@ -39,6 +29,16 @@ Data = [
         (14,57.8),
         (15,56.6)
     ]
+
+Temp = [(0,initialTemp)]
+
+for i in range(0,divisions-1):
+    Temp.append( ( i*dt, Temp[i][1] + dt * (-R*(Temp[i][1]-TempAir)) ) )
+
+# This splits Temp into a list of times and a list of temperatures.
+simX, simY = zip(*Temp)
+plt.plot(simX,simY)
+
 dataX, dataY = zip(*Data)
 plt.plot(dataX,dataY,"ro")
 
