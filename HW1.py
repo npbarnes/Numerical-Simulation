@@ -15,8 +15,8 @@ interval = 15  # Minutes
 divisions = 100
 
 initialTemp = 83  # Degrees C
-TempAir = 30
-R = .5
+TempAir =   float(input("Air Temperature     : "))
+R =         float(input("Thermal conductivity: "))
 
 Data = [
         (0,83),
