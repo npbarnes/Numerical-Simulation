@@ -2,6 +2,7 @@
 # x^n+1 = x^n + dt*F^n
 
 import matplotlib.pyplot as plt
+plt.ion()
 
 # Newton Cooling simulation using Euler method
 def NewtonCooling(initTemp, R, air, endTime, divisions):
@@ -15,8 +16,6 @@ interval = 15  # Minutes
 divisions = 100
 
 initialTemp = 83  # Degrees C
-TempAir =   float(input("Air Temperature     : "))
-R =         float(input("Thermal conductivity: "))
 
 Data = [
         (0,83),
@@ -37,13 +36,19 @@ Data = [
         (15,56.6)
     ]
 
-Temp = NewtonCooling(initialTemp, R, TempAir, interval, divisions)
 
 # Data to be plotted is split into x and y components
-simX, simY = zip(*Temp)
 dataX, dataY = zip(*Data)
 
-plt.plot(simX,simY)
-plt.plot(dataX,dataY,"ro")
+while(True):
+    TempAir =   float(input("Air Temperature     : "))
+    R =         float(input("Thermal conductivity: "))
 
-plt.show()
+    Temp = NewtonCooling(initialTemp, R, TempAir, interval, divisions)
+    simX, simY = zip(*Temp)
+
+    plt.cla()
+    plt.plot(simX,simY)
+    plt.plot(dataX,dataY,"ro")
+
+    plt.show()
