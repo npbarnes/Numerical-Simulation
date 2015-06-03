@@ -94,7 +94,7 @@ program euler
 
 contains
     ! Get the next position using Euler method.
-    type(vector) pure function getNext(derivitive, step, currx,currt)
+    pure subroutine getNext(derivitive, step, currx, currt)
         interface
            pure function derivitive(x, t)
                 use Math
@@ -104,10 +104,12 @@ contains
             end function derivitive
         end interface
         real, intent(in) :: step
-        type(vector), intent(in) :: currx
-        real, intent(in) :: currt
+        type(vector), intent(inout) :: currx
+        real, intent(inout) :: currt
 
-        getNext = currx + step*derivitive(currx,currt)
-    end function getNext
+        currx = currx + step*derivitive(currx,currt)
+        currt = currt+step
+    end subroutine getNext
+
 
 end program euler
