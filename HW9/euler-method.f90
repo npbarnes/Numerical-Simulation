@@ -85,7 +85,7 @@ program euler
     use Electromagnetism
     implicit none
     ! E and B in normalized units, i.e. qE/m -> E, and qB/m -> B
-    type(vector), parameter :: E=vector(0,0,0), B=vector(0,-1,0)
+    type(vector), parameter :: E=vector(0,0,0), B=vector(0,0,-1)
     type(vector) :: ionPosition
     type(vector) :: ionVelocity
     ! Initialize to the right of the origin moving up. (2-d)
