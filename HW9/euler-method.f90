@@ -74,8 +74,40 @@ contains
 
 end module Electromagnetism
 
+!!!!
+! Given the equation
+! d/dt x(t) = F(x,t)
+! simulate as
+! x_n+1 = x_n + dt*F_n
+!!!!
 program euler
+    use Math
     use Electromagnetism
     implicit none
+    ! E and B in normalized units, i.e. qE/m -> E, and qB/m -> B
+    type(vector), parameter :: E=vector(0,0,0), B=vector(0,-1,0)
+    type(vector) :: ionPosition
+    type(vector) :: ionVelocity
+    ! Initialize to the right of the origin moving up. (2-d)
+    ionPosition = vector(1,0,0)
+    ionVelocity = vector(0,1,0)
+
+contains
+    ! Get the next position using Euler method.
+    type(vector) pure function getNext(derivitive, step, currx,currt)
+        interface
+           pure function derivitive(x, t)
+                use Math
+                type(vector) :: derivitive
+                type(vector), intent(in) :: x
+                real, intent(in) :: t
+            end function derivitive
+        end interface
+        real, intent(in) :: step
+        type(vector), intent(in) :: currx
+        real, intent(in) :: currt
+
+        getNext = currx + step*derivitive(currx,currt)
+    end function getNext
 
 end program euler
