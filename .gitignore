@@ -1,4 +1,5 @@
 *.swp
 *.mod
+*.o
 HW9/euler
 HW9/velocities
