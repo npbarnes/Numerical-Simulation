@@ -1,5 +1,5 @@
 module Electromagnetism
-    use Math
+    use MathTools
     implicit none
     public :: lorentzForce
 

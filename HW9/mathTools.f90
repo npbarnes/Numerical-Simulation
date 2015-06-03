@@ -1,4 +1,4 @@
-module Math
+module MathTools
     implicit none
     public
 
@@ -47,4 +47,4 @@ contains
         vecscale = vector(s*v%x, s*v%y, s*v%z)
     end function vecscale
 
-end module Math
+end module MathTools

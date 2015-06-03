@@ -5,7 +5,7 @@
 ! x_n+1 = x_n + dt*F_n
 !!!!
 program euler
-    use Math
+    use MathTools
     use Electromagnetism
     implicit none
     ! E and B in normalized units, i.e. qE/m -> E, and qB/m -> B
@@ -33,7 +33,7 @@ contains
     pure subroutine getNext(derivitive, step, currx, currt)
         interface
            pure function derivitive(x, t)
-                use Math
+                use MathTools
                 type(vector) :: derivitive
                 type(vector), intent(in) :: x
                 real, intent(in) :: t
