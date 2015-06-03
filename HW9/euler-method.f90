@@ -111,5 +111,11 @@ contains
         currt = currt+step
     end subroutine getNext
 
+    type(vector) pure function accel(x, t)
+        type(vector), intent(in) :: x
+        real, intent(in) :: t
+
+        accel = normalizedLorentz(E,B,x)
+    end function accel
 
 end program euler
