@@ -32,7 +32,7 @@ contains
     ! Get the next position using Euler method.
     pure subroutine getNext(derivitive, step, currx, currt)
         interface
-           pure function derivitive(x, t)
+            pure function derivitive(x, t)
                 use MathTools
                 type(vector) :: derivitive
                 type(vector), intent(in) :: x
