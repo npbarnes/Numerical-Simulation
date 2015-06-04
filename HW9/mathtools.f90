@@ -12,7 +12,8 @@ module MathTools
 
     ! scalar multiplication
     interface operator (*)
-        module procedure vecscale
+        module procedure vecscalel
+        module procedure vecscaler
     end interface
 
     interface operator (.dot.)
@@ -41,10 +42,16 @@ contains
                             a%x*b%y - a%y*b%x)
     end function veccross
 
-    type(vector) elemental function vecscale(s,v)
+    type(vector) elemental function vecscalel(s,v)
         real, intent(in) :: s
         type(vector), intent(in) :: v
-        vecscale = vector(s*v%x, s*v%y, s*v%z)
-    end function vecscale
+        vecscalel = vector(s*v%x, s*v%y, s*v%z)
+    end function vecscalel
+
+    type(vector) elemental function vecscaler(vv,ss)
+        real, intent(in) :: ss
+        type(vector), intent(in) :: vv
+        vecscaler = vector(ss*vv%x, ss*vv%y, ss*vv%z)
+    end function vecscaler
 
 end module MathTools
