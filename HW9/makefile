@@ -1,9 +1,9 @@
 DEBUG ?= 1
-FFLAGS=-Wall -Wextra -Wconversion -pedantic
+FFLAGS=-Wall -Wextra -Wconversion -Werror -std=gnu -pedantic-errors -fimplicit-none -Wno-unused-dummy-argument -Wno-unused-parameter -fmax-errors=1
 ifeq ($(DEBUG),1)
-	FFLAGS += -g3
+	FFLAGS += -g3 -O0 -fbacktrace -fbounds-check -ffpe-trap=zero,overflow,underflow -Warray-temporaries -Wcharacter-truncation
 else
-	FFLAGS += -O3
+	FFLAGS += -O3 -ffrontend-optimize -Wfunction-elimination
 endif
 
 F90 = gfortran $(FFLAGS)
