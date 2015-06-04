@@ -12,7 +12,8 @@ program boris
     type(vector), parameter :: E=vector(0,0,0), B=vector(0,0,-1)
     type(vector) :: ionPosition
     type(vector) :: ionVelocity
-    real :: time
+    real :: time = 0
+    real :: step = 0.1
 
     integer :: un
     integer :: i
@@ -23,35 +24,29 @@ program boris
 
     open(newunit=un,file="velocities")
 
-    do i=0,500
+    do i=0,50000
         write(un,*) time, ionVelocity%x, ionVelocity%y, ionVelocity%z
-        call getNext(accel, .1, ionVelocity, time)
+        call getNext(ionVelocity, E, B, step)
+        time = time+step
     end do
 
 contains
-    ! Get the next position using Euler method.
-    pure subroutine getNext(derivitive, step, currx, currt)
-        interface
-            pure function derivitive(x, t)
-                use MathTools
-                type(vector) :: derivitive
-                type(vector), intent(in) :: x
-                real, intent(in) :: t
-            end function derivitive
-        end interface
+    ! Get the next position using Boris method.
+    pure subroutine getNext(velocity, E, B, step)
+        use mathTools
+        type(vector), intent(inout) :: velocity
+        type(vector), intent(in) :: E, B
         real, intent(in) :: step
-        type(vector), intent(inout) :: currx
-        real, intent(inout) :: currt
 
-        currx = currx + step*derivitive(currx,currt)
-        currt = currt+step
+        type(vector) :: vMinus, vPlus
+
+        vMinus = velocity + (step/2)*E
+
+        vPlus = (&
+            (1 - ((B.dot.B)*step**2)/4) * vMinus &
+            + step*(vMinus .cross. B) + (((step**2)/2)*(vMinus.dot.B))*B)&
+            *(1/(1 + ((B.dot.B)*step**2)/4))
+
+        velocity = vPlus + (step/2)*E
     end subroutine getNext
-
-    type(vector) pure function accel(x, t)
-        type(vector), intent(in) :: x
-        real, intent(in) :: t
-
-        accel = normalizedLorentz(E,B,x)
-    end function accel
-
 end program boris
