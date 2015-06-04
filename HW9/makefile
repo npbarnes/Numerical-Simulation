@@ -8,12 +8,22 @@ endif
 
 F90 = gfortran $(FFLAGS)
 
-objects = euler-method.o mathtools.o electromagnetism.o
+tool_objects = mathtools.o electromagnetism.o
+euler_objects = euler-method.o $(tool_objects)
+boris_objects = boris-method.o $(tool_objects)
 modfiles = mathtools.mod electromagnetism.mod
-EXE = euler
+EXE = euler boris
 
-euler: $(objects)
+all: $(EXE)
+
+boris: $(boris_objects)
 	$(F90) -o $@ $^
+
+euler: $(euler_objects)
+	$(F90) -o $@ $^
+
+boris-method.o: boris-method.f90 mathtools.mod electromagnetism.mod
+	$(F90) -c $<
 
 euler-method.o: euler-method.f90 mathtools.mod electromagnetism.mod
 	$(F90) -c $<
@@ -25,4 +35,4 @@ Electromagnetism.o electromagnetism.mod: electromagnetism.f90 mathtools.mod
 	$(F90) -c $<
 
 clean:
-	rm -f $(objects) $(modfiles) $(EXE)
+	rm -f $(euler_objects) $(boris_objects) $(modfiles) $(EXE)
