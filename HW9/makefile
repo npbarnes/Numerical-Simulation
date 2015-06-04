@@ -1,6 +1,6 @@
 DEBUG ?= 1
 FFLAGS=-Wall -Wextra -Wconversion -pedantic
-ifeq (DEBUG,1)
+ifeq ($(DEBUG),1)
 	FFLAGS += -g3
 else
 	FFLAGS += -O3
