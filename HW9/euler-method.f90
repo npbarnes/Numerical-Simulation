@@ -12,20 +12,37 @@ program euler
     type(vector), parameter :: E=vector(0,0,0), B=vector(0,0,-1)
     type(vector) :: ionPosition
     type(vector) :: ionVelocity
-    real :: time
+    real :: time = 0
+    real :: step = 0.1
 
-    integer :: un
+    integer :: velocity_un
+    integer :: position_un
     integer :: i
+    integer, parameter :: iterations = 5000
+
+    type(vector), dimension(iterations) :: positions
+    type(vector), dimension(iterations) :: velocities
+
 
     ! Initialize to the right of the origin moving up. (2-d)
     ionPosition = vector(1,0,0)
     ionVelocity = vector(0,1,0)
 
-    open(newunit=un,file="velocities")
+    open(newunit=position_un,file="positions")
+    open(newunit=velocity_un,file="velocities")
 
-    do i=0,500
-        write(un,*) time, ionVelocity%x, ionVelocity%y, ionVelocity%z
-        call getNext(accel, .1, ionVelocity, time)
+    do i=1,iterations
+        positions(i) = ionPosition
+        velocities(i) = ionVelocity
+
+        write(position_un,*) time, ionPosition%x, ionPosition%y, ionPosition%z
+        write(velocity_un,*) time, ionVelocity%x, ionVelocity%y, ionVelocity%z
+
+        call getNext(accel, step, ionVelocity, time)
+
+        ! This is actually using the euler method to find ionPosition.
+        ionPosition = ionPosition + step*ionVelocity
+        time = time+step
     end do
 
 contains
