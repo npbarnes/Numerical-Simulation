@@ -18,6 +18,8 @@ program euler
     integer :: velocity_un
     integer :: position_un
     integer :: i
+    ! Since the euler method tends to explode. Setting interations too high
+    ! can cause values to overflow.
     integer, parameter :: iterations = 5000
 
     type(vector), dimension(iterations) :: positions
