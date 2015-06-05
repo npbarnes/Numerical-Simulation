@@ -15,18 +15,31 @@ program boris
     real :: time = 0
     real :: step = 0.1
 
-    integer :: un
+    integer :: velocity_un
+    integer :: position_un
     integer :: i
+    integer, parameter :: iterations = 50000
+
+    type(vector), dimension(iterations) :: positions
+    type(vector), dimension(iterations) :: velocities
+
 
     ! Initialize to the right of the origin moving up. (2-d)
     ionPosition = vector(1,0,0)
     ionVelocity = vector(0,1,0)
 
-    open(newunit=un,file="velocities")
+    open(newunit=position_un,file="positions")
+    open(newunit=velocity_un,file="velocities")
 
-    do i=0,50000
-        write(un,*) time, ionVelocity%x, ionVelocity%y, ionVelocity%z
+    do i=1,iterations
+        positions(i) = ionPosition
+        velocities(i) = ionVelocity
+
+        write(position_un,*) time, ionPosition%x, ionPosition%y, ionPosition%z
+        write(velocity_un,*) time, ionVelocity%x, ionVelocity%y, ionVelocity%z
+
         call getNext(ionVelocity, E, B, step)
+        ionPosition = ionPosition + step*ionVelocity
         time = time+step
     end do
 
