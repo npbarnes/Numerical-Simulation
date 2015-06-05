@@ -39,6 +39,8 @@ program boris
         write(velocity_un,*) time, ionVelocity%x, ionVelocity%y, ionVelocity%z
 
         call getNext(ionVelocity, E, B, step)
+
+        ! This is actually using the euler method to find ionPosition.
         ionPosition = ionPosition + step*ionVelocity
         time = time+step
     end do
