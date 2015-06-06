@@ -46,7 +46,7 @@ program boris
     end do
 
 contains
-    ! Get the next position using Boris method.
+    ! Get the next velocity using Boris method.
     pure subroutine getNext(velocity, E, B, step)
         use mathTools
         type(vector), intent(inout) :: velocity
