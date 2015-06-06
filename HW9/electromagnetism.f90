@@ -1,7 +1,6 @@
 module Electromagnetism
     use MathTools
     implicit none
-    public :: lorentzForce
 
 contains
     type(vector) elemental function lorentzForce(E,B,q,velocity) result(f)
