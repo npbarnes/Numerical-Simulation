@@ -40,7 +40,7 @@ program euler
         write(position_un,*) time, ionPosition%x, ionPosition%y, ionPosition%z
         write(velocity_un,*) time, ionVelocity%x, ionVelocity%y, ionVelocity%z
 
-        call getNext(accel, step, ionVelocity, time)
+        call eulerStep(accel, step, ionVelocity, time)
 
         ! This is actually using the euler method to find ionPosition.
         ionPosition = ionPosition + step*ionVelocity
@@ -48,29 +48,10 @@ program euler
     end do
 
 contains
-    ! Get the next position using Euler method.
-    pure subroutine getNext(derivitive, step, currx, currt)
-        interface
-            pure function derivitive(x, t)
-                use MathTools
-                type(vector) :: derivitive
-                type(vector), intent(in) :: x
-                real, intent(in) :: t
-            end function derivitive
-        end interface
-        real, intent(in) :: step
-        type(vector), intent(inout) :: currx
-        real, intent(inout) :: currt
-
-        currx = currx + step*derivitive(currx,currt)
-        currt = currt+step
-    end subroutine getNext
-
     type(vector) pure function accel(x, t)
         type(vector), intent(in) :: x
         real, intent(in) :: t
 
         accel = normalizedLorentz(E,B,x)
     end function accel
-
 end program euler

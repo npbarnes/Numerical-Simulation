@@ -54,4 +54,21 @@ contains
         vecscaler = vector(ss*vv%x, ss*vv%y, ss*vv%z)
     end function vecscaler
 
+    ! Get the next position using Euler method.
+    pure subroutine eulerStep(derivitive, step, currx, currt)
+        interface
+            pure function derivitive(x, t)
+                use MathTools
+                type(vector) :: derivitive
+                type(vector), intent(in) :: x
+                real, intent(in) :: t
+            end function derivitive
+        end interface
+        real, intent(in) :: step
+        type(vector), intent(inout) :: currx
+        real, intent(inout) :: currt
+
+        currx = currx + step*derivitive(currx,currt)
+        currt = currt+step
+    end subroutine eulerStep
 end module MathTools
