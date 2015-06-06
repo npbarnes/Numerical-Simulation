@@ -58,7 +58,7 @@ contains
     pure subroutine eulerStep(derivitive, step, currx, currt)
         interface
             pure function derivitive(x, t)
-                use MathTools
+                import :: vector
                 type(vector) :: derivitive
                 type(vector), intent(in) :: x
                 real, intent(in) :: t
