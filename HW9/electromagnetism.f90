@@ -20,4 +20,22 @@ contains
         f = (E + (velocity .cross. B))
     end function normalizedLorentz
 
+    ! Get the next velocity using Boris method.
+    pure subroutine borisStep(velocity, E, B, step)
+        use mathTools
+        type(vector), intent(inout) :: velocity
+        type(vector), intent(in) :: E, B
+        real, intent(in) :: step
+
+        type(vector) :: vMinus, vPlus
+
+        vMinus = velocity + (step/2)*E
+
+        vPlus = (&
+            (1 - ((B.dot.B)*step**2)/4) * vMinus &
+            + step*(vMinus .cross. B) + (((step**2)/2)*(vMinus.dot.B))*B)&
+            *(1/(1 + ((B.dot.B)*step**2)/4))
+
+        velocity = vPlus + (step/2)*E
+    end subroutine borisStep
 end module Electromagnetism

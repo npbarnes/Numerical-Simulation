@@ -38,30 +38,10 @@ program boris
         write(position_un,*) time, ionPosition%x, ionPosition%y, ionPosition%z
         write(velocity_un,*) time, ionVelocity%x, ionVelocity%y, ionVelocity%z
 
-        call getNext(ionVelocity, E, B, step)
+        call borisStep(ionVelocity, E, B, step)
 
         ! This is actually using the euler method to find ionPosition.
         ionPosition = ionPosition + step*ionVelocity
         time = time+step
     end do
-
-contains
-    ! Get the next velocity using Boris method.
-    pure subroutine getNext(velocity, E, B, step)
-        use mathTools
-        type(vector), intent(inout) :: velocity
-        type(vector), intent(in) :: E, B
-        real, intent(in) :: step
-
-        type(vector) :: vMinus, vPlus
-
-        vMinus = velocity + (step/2)*E
-
-        vPlus = (&
-            (1 - ((B.dot.B)*step**2)/4) * vMinus &
-            + step*(vMinus .cross. B) + (((step**2)/2)*(vMinus.dot.B))*B)&
-            *(1/(1 + ((B.dot.B)*step**2)/4))
-
-        velocity = vPlus + (step/2)*E
-    end subroutine getNext
 end program boris
